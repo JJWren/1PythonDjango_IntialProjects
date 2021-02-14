@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Add Book | View Book Info</title>
+        <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            crossorigin="anonymous"
+        />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    </head>
+
+    <body class="bg-secondary text-white">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-item nav-link" href="/home">Home </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-item nav-link active" href="/books"
+                                >Add Books
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-item nav-link mr-auto" href="/authors"
+                                >Add Authors
+                            </a>
+                        </li>
+                    </ul>
+
+                    <span class="navbar-item">
+                        <a class="nav-item nav-link" href="/logout">Log Out </a>
+                    </span>
+                </div>
+            </div>
+        </nav>
+
+        <h1 class="rounded bg-dark text-center col-12">
+            <u>{{book_to_show.title}}</u>
+        </h1>
+
+        <h4 class="col-2 mx-auto bg-primary rounded text-center">
+            ID: {{book_to_show.id}}
+        </h4>
+
+        <div class="d-flex flex-row justify-content-center">
+            <div
+                class="info_box d-flex flex-column justify-content-center col-6"
+            >
+                <div class="d-flex flex-column">
+                    <br />
+                    <h4 class="">Description:</h4>
+
+                    <p class="bg-info rounded text-center">
+                        <i>{{book_to_show.desc}}</i>
+                    </p>
+                </div>
+
+                <br />
+
+                <div class="author_block d-flex flex-column">
+                    <h4 class="primary">Authors:</h4>
+
+                    <ul class="list-group text-center">
+                        {% for author in authors_of_book %}
+                        <li class="list-group-item list-group-item-info">
+                            {{author.first_name}} {{author.last_name}}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <br />
+                <br />
+                <br />
+
+                <a class="col text-white" href="/books"
+                    ><u>Return to Books</u></a
+                >
+            </div>
+
+            <div
+                class="edit_box d-flex flex-column justify-content-center col-6"
+            >
+                <div class="d-flex flex-column">
+                    <br />
+
+                    {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+
+                    <form
+                        class="form-group"
+                        action="/edit_book_objects/{{book_to_show.id}}"
+                        method="POST"
+                    >
+                        {% csrf_token %}
+                        <h4 class="">Edit Title / Description:</h4>
+                        <textarea
+                            type="text"
+                            name="title"
+                            rows="1"
+                            placeholder="Please enter a title..."
+                            class="form-control"
+                        ></textarea>
+
+                        <textarea
+                            type="text"
+                            name="desc"
+                            rows="2"
+                            placeholder="Please enter a description..."
+                            class="form-control col-12"
+                        ></textarea>
+                        <input
+                            class="form-control bg-success text-light btn btn-success"
+                            type="submit"
+                            value="Add"
+                        />
+                    </form>
+                </div>
+
+                <br />
+
+                <div class="d-flex flex-column">
+                    <h4 class="primary">Add Authors:</h4>
+
+                    <form
+                        action="/add_auth2book/{{book_to_show.id}}"
+                        method="POST"
+                    >
+                        {% csrf_token %}
+                        <div class="add_author d-flex flex-row form-group">
+                            <select
+                                class="form-control col-10"
+                                name="auth_to_book"
+                            >
+                                {% for author in non_authors %}
+                                <option value="{{author.id}}"
+                                    >{{author.first_name}}
+                                    {{author.last_name}}</option
+                                >
+                                {% endfor %}
+                            </select>
+                            <input
+                                class="form-control bg-success col-2 text-light btn btn-success"
+                                type="submit"
+                                value="Add"
+                            />
+                        </div>
+                    </form>
+                </div>
+
+                <div class="d-flex flex-column">
+                    <h4 class="primary">Remove Authors:</h4>
+
+                    <form
+                        action="/remove_auth2book/{{book_to_show.id}}"
+                        method="POST"
+                    >
+                        {% csrf_token %}
+                        <div class="add_author d-flex flex-row form-group">
+                            <select
+                                class="form-control col-10"
+                                name="auth_to_book"
+                            >
+                                {% for author in exclude_authors %}
+                                <option value="{{author.id}}"
+                                    >{{author.first_name}}
+                                    {{author.last_name}}</option
+                                >
+                                {% endfor %}
+                            </select>
+                            <input
+                                class="form-control bg-danger col-2 text-light btn btn-danger"
+                                type="submit"
+                                value="Remove"
+                            />
+                        </div>
+                    </form>
+                </div>
+
+                <!-- do not remove... breaks column for some weird reason -->
+                <a class="col text-white"></a>
+            </div>
+        </div>
+    </body>
+</html>

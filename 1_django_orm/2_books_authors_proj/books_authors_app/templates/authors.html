@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Add Author | Author List</title>
+        <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            crossorigin="anonymous"
+        />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    </head>
+    <body class="bg-dark">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-item nav-link" href="/home">Home </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-item nav-link" href="/books"
+                                >Add Books
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a
+                                class="nav-item nav-link mr-auto active"
+                                href="/authors"
+                                >Add Authors
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <span class="navbar-item">
+                        <a class="nav-item nav-link" href="/logout">Log Out </a>
+                    </span>
+                </div>
+            </div>
+        </nav>
+
+        <br />
+
+        <div
+            class="container bg-light h-100 w-100 d-flex flex-row justify-content-between align-items-start"
+        >
+            <div
+                class="left_half_container bg-light w-50 d-flex flex-column justify-content-center"
+            >
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
+                <form
+                    class="container w-100"
+                    action="/add_author"
+                    method="POST"
+                >
+                    <br />
+                    {% csrf_token %}
+                    <div
+                        class="lh_header_block bg-dark text-white w-100 text-center"
+                    >
+                        <h1>Add a Author</h1>
+                    </div>
+                    <div class="form-group w-100 d-flex justify-content-center">
+                        <!-- <label for="title" class="col-5 text-white bg-info"
+                            >Title</label
+                        > -->
+                        <textarea
+                            type="text"
+                            name="first_name"
+                            rows="1"
+                            placeholder="Please enter a first name..."
+                            class="form-control col"
+                        ></textarea>
+                    </div>
+
+                    <div class="form-group w-100 d-flex justify-content-center">
+                        <!-- <label for="desc" class="col-5 text-white bg-info"
+                            >Description</label
+                        > -->
+                        <textarea
+                            class="form-control col"
+                            name="last_name"
+                            rows="1"
+                            placeholder="Please enter a last name..."
+                        ></textarea>
+                    </div>
+
+                    <div class="form-group w-100 d-flex justify-content-center">
+                        <!-- <label for="desc" class="col-5 text-white bg-info"
+                            >Description</label
+                        > -->
+                        <textarea
+                            class="form-control col"
+                            name="notes"
+                            rows="3"
+                            placeholder="Please enter any notes..."
+                        ></textarea>
+                    </div>
+
+                    <div class="form-group w-100 text-center">
+                        <input
+                            type="submit"
+                            value="Add"
+                            class="btn btn-success"
+                        />
+                    </div>
+                </form>
+
+                <a class="col" href="/home">Return Home</a>
+                <br />
+                <a class="col" href="/books">Go to Books</a>
+            </div>
+
+            <div class="right_half bg-light w-50">
+                <br />
+                <table
+                    class="table w-100 table-bordered table-hover table-striped"
+                >
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">Notes</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for author in authors %}
+                        <tr>
+                            <td scope="col">{{author.id}}</td>
+                            <td scope="col">{{author.first_name}}</td>
+                            <td scope="col">{{author.last_name}}</td>
+                            <td scope="col">
+                                <a href="/edit_author/{{author.id}}">View</a> |
+                                <a href="/delete_author/{{author.id}}"
+                                    >Delete</a
+                                >
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>

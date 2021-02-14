@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Login | Registration</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+            integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+            crossorigin="anonymous"
+        />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div class="d-flex flex-column justify-content-center">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-item nav-link active" href="/"
+                            >Home <span class="sr-only">(current)</span></a
+                        >
+                        <a class="nav-item nav-link" href="/login">Log In </a>
+                        <a class="nav-item nav-link" href="/register"
+                            >Register
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="d-flex flex-column justify-content-center text-center">
+                <h1>Welcome to the Homepage</h1>
+
+                <h4>Select an option from the menu!</h4>
+
+                <div
+                    class="d-flex flex-column border rounded border-primary mx-auto col-1 m-1 p-1 bg-primary text-light"
+                >
+                    <a
+                        class="mx-auto m-1 border rounded border-white text-white bg-muted"
+                        href="/login"
+                        >Log In</a
+                    >
+
+                    <a
+                        class="mx-auto m-1 border rounded border-white text-white bg-muted"
+                        href="/register"
+                        >Register!</a
+                    >
+                </div>
+
+                {% if messages %} {% for message in messages %}
+                <p
+                    class="text-danger messages border border-danger rounded mx-auto col-4"
+                >
+                    {{ message }}
+                </p>
+                {% endfor %} {% endif %}
+            </div>
+        </div>
+    </body>
+</html>

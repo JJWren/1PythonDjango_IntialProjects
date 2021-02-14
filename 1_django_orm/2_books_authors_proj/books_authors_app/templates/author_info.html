@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Add Book | View Book Info</title>
+        <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            crossorigin="anonymous"
+        />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    </head>
+
+    <body class="bg-secondary text-white">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-item nav-link" href="/home">Home </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-item nav-link" href="/books"
+                                >Add Books
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a
+                                class="nav-item nav-link mr-auto active"
+                                href="/authors"
+                                >Add Authors
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <span class="navbar-item">
+                        <a class="nav-item nav-link" href="/logout">Log Out </a>
+                    </span>
+                </div>
+            </div>
+        </nav>
+
+        <h1 class="rounded bg-dark text-center col-12">
+            <u>{{author_to_show.first_name}} {{author_to_show.last_name}}</u>
+        </h1>
+
+        <h4 class="col-2 mx-auto bg-primary rounded text-center">
+            ID: {{author_to_show.id}}
+        </h4>
+
+        <div class="d-flex flex-row justify-content-center">
+            <div
+                class="info_box d-flex flex-column justify-content-center col-6"
+            >
+                <div class="d-flex flex-column">
+                    <br />
+                    <h4 class="">Notes:</h4>
+
+                    <p class="bg-info rounded text-center">
+                        <i>{{author_to_show.notes}}</i>
+                    </p>
+                </div>
+
+                <br />
+
+                <div class="author_block d-flex flex-column">
+                    <h4 class="primary">Books:</h4>
+
+                    <ul class="list-group text-center">
+                        {% for book in books_of_author %}
+                        <li class="list-group-item list-group-item-info">
+                            {{book.title}}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <br />
+                <br />
+                <br />
+
+                <a class="col text-white" href="/authors"
+                    ><u>Return to Authors</u></a
+                >
+            </div>
+
+            <div
+                class="edit_box d-flex flex-column justify-content-center col-6"
+            >
+                <div class="d-flex flex-column">
+                    <br />
+
+                    {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+
+                    <form
+                        class="form-group"
+                        action="/edit_author_objects/{{author_to_show.id}}"
+                        method="POST"
+                    >
+                        {% csrf_token %}
+                        <h4 class="">Edit Name / Notes:</h4>
+
+                        <textarea
+                            type="text"
+                            name="first_name"
+                            rows="1"
+                            placeholder="Please enter author's first name..."
+                            class="form-control"
+                        ></textarea>
+
+                        <textarea
+                            type="text"
+                            name="last_name"
+                            rows="1"
+                            placeholder="Please enter author's last name..."
+                            class="form-control"
+                        ></textarea>
+
+                        <textarea
+                            type="text"
+                            name="notes"
+                            rows="2"
+                            placeholder="Please enter notes..."
+                            class="form-control col-12"
+                        ></textarea>
+                        <input
+                            class="form-control bg-success text-light btn btn-success"
+                            type="submit"
+                            value="Add"
+                        />
+                    </form>
+                </div>
+
+                <br />
+
+                <div class="d-flex flex-column">
+                    <h4 class="primary">Add Books:</h4>
+
+                    <form
+                        action="/add_book2auth/{{author_to_show.id}}"
+                        method="POST"
+                    >
+                        {% csrf_token %}
+                        <div class="add_book d-flex flex-row form-group">
+                            <select
+                                class="form-control col-10"
+                                name="book_to_auth"
+                            >
+                                {% for book in non_books %}
+                                <option value="{{book.id}}"
+                                    >{{book.title}}</option
+                                >
+                                {% endfor %}
+                            </select>
+                            <input
+                                class="form-control bg-success col-2 text-light btn btn-success"
+                                type="submit"
+                                value="Add"
+                            />
+                        </div>
+                    </form>
+                </div>
+
+                <div class="d-flex flex-column">
+                    <h4 class="primary">Remove Books:</h4>
+
+                    <form
+                        action="/remove_book2auth/{{author_to_show.id}}"
+                        method="POST"
+                    >
+                        {% csrf_token %}
+                        <div class="remove_author d-flex flex-row form-group">
+                            <select
+                                class="form-control col-10"
+                                name="book_to_auth"
+                            >
+                                {% for book in exclude_books %}
+                                <option value="{{book.id}}"
+                                    >{{book.title}}</option
+                                >
+                                {% endfor %}
+                            </select>
+                            <input
+                                class="form-control bg-danger col-2 text-light btn btn-danger"
+                                type="submit"
+                                value="Remove"
+                            />
+                        </div>
+                    </form>
+                </div>
+
+                <!-- do not remove... breaks column for some weird reason -->
+                <a class="col text-white"></a>
+            </div>
+        </div>
+    </body>
+</html>

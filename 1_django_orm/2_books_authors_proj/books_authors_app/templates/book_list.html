@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Books Available</title>
+        <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            crossorigin="anonymous"
+        />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    </head>
+    <body class="bg-dark d-flex flex-column justify-content-center">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link active" href="/home"
+                        >Home <span class="sr-only"></span
+                    ></a>
+                    <a class="nav-item nav-link" href="/books">Books</a>
+                    <a class="nav-item nav-link" href="/authors">Authors</a>
+                </div>
+            </div>
+        </nav>
+
+        <br />
+
+        <div class="d-flex col-12 justify-content-center">
+            <div class="bg-light col-2 d-flex flex-row justify-content-center">
+                <div class="bg-light">
+                    <br />
+
+                    <table
+                        class="table table-bordered table-hover table-striped"
+                    >
+                        <h4 class="bg-dark text-white text-center">
+                            List of Books
+                        </h4>
+
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <!-- This Django for loop is how bookID gets to urls.py to views.py -->
+                            {% for book in books %}
+                            <tr>
+                                <td scope="col">{{book.id}}</td>
+                                <td scope="col">{{book.title}}</td>
+                                <td scope="col">
+                                    <a href="/view_book/{{book.id}}">View</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <a class="col" href="/">Return Home</a>
+                    <br />
+                    <a class="col" href="/authors">Go to Authors</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
